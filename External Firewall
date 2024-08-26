@@ -1,0 +1,47 @@
+External Firewall Penetration Testing
+
+traceroute
+
+to find route (traceroute $ip)
+
+SYN Packet Analysis
+
+nmap -sS -Pn -T4 --reason -p- $ip
+
+FIN Packet Analysis
+
+ nmap -sF -T4 -Pn --reason $ip -p-
+
+NULL Packet Analysis
+
+nmap -sN -T4 -Pn --reason $ip -p-
+
+XMAS Packet Analysis
+
+nmap -sX -T4 -Pn --reason $ip -p-
+
+TCP Packet Analysis
+
+nmap -sT -T4 -Pn --reason $ip -p-
+
+UDP Packet Analysis
+
+namp -sU $ip -p-
+
+Fragmented Packet Analysis
+
+nmap -mtu 8 -T4 -Pn --reason $ip -p-
+
+ICMP Packet Analysis
+
+sudo hping3 -K 0 $ip
+
+Port Analysis
+
+sudo nmap -p- -T4 $ip
+
+Service Version Analysis
+
+nmap -sV -T4 -Pn --reason $ip -p-
+
+
